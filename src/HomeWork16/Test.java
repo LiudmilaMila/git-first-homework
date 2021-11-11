@@ -23,35 +23,35 @@ public class Test {
                 LocalDate.of(1995, 12, 21));
 
 
-        CallLog callLog1 = new CallLog("Донченко", "380964587392",
+        CallLog callLog1 = new CallLog("Донченко", "306322589745",
                 LocalDateTime.of(2021, 11, 5, 14, 33),
-                356, CallStatus.INCOMING);
-        CallLog callLog2 = new CallLog("Толстой", "380550369875",
+                356, CallStatus.MISSED);
+        CallLog callLog2 = new CallLog("Толстой", "380957493216",
                 LocalDateTime.of(2021, 11, 5, 6, 28),
                 66, CallStatus.INCOMING);
-        CallLog callLog3 = new CallLog("Тищенко", "380634978632",
+        CallLog callLog3 = new CallLog("Тищенко", "380957493216",
                 LocalDateTime.of(2021, 11, 3, 16, 14),
-                128, CallStatus.INCOMING);
-        CallLog callLog4 = new CallLog("Толстой", "380550369875",
+                128, CallStatus.OUTGOING);
+        CallLog callLog4 = new CallLog("Толстой", "380957493216",
                 LocalDateTime.of(2021, 11, 5, 6, 28),
                 66, CallStatus.INCOMING);
-        CallLog callLog5 = new CallLog("Тищенко", "380634978632",
+        CallLog callLog5 = new CallLog("Тищенко", "306322589745",
                 LocalDateTime.of(2021, 11, 3, 16, 14),
                 128, CallStatus.INCOMING);
 
 
-        Message message1 = new Message("Онищенко", "380957863247",
+        Message message1 = new Message("Онищенко", "306322589745",
                 "\"Перезвони\"", LocalDateTime.of(2021, 10, 28, 14, 14));
 
-        Message message2 = new Message("Судейченко", "380665893247",
+        Message message2 = new Message("Судейченко", "380957493216",
                 "\"Доброе утро\"", LocalDateTime.of(2021, 11, 14, 8, 27));
 
-        Message message3 = new Message("Каменсикх", "380957864722",
+        Message message3 = new Message("Каменсикх", "380957493216",
                 "\"Вы выиграли в лотерею\"", LocalDateTime.of(2021, 9, 3, 13, 45));
-        Message message4 = new Message("Судейченко", "380665893247",
+        Message message4 = new Message("Судейченко", "306322589745",
                 "\"Доброе утро\"", LocalDateTime.of(2021, 11, 14, 8, 27));
 
-        Message message5 = new Message("Каменсикх", "380957864722",
+        Message message5 = new Message("Каменсикх", "380735557634",
                 "\"Вы выиграли в лотерею\"", LocalDateTime.of(2021, 9, 3, 13, 45));
 
         List<Contact> contacts = new ArrayList<>();
@@ -136,6 +136,13 @@ public class Test {
         Collection<CallLog> foundCallLogs = findCallLogsText(callLogs, "Д");
         Collection<Message> foundMessages = findMessageText(messages, "ре");
 
+        System.out.println("--------doTask5-------------");
+        doGroupsOfMessages(contacts, messages);
+        printGroupsOfMessages(doGroupsOfMessages(contacts, messages));
+
+        System.out.println("--------doTask6-------------");
+        doGroupOfCallLogs(contacts,callLogs);
+        printGroupsOfCallLogs(doGroupOfCallLogs(contacts,callLogs));
 
     }
 
@@ -198,5 +205,50 @@ public class Test {
         return groupsOfMessages;
     }
 
+    private Collection<CallLog> findCallLog(Collection<CallLog> callLogs, Contact contact) {
+        Collection<CallLog> foundCallLogs = new ArrayList<>();
+        for (CallLog callLog : callLogs) {
+            if (callLog.getPhoneNumber().equals(contact.getPhoneNumber())) {
+                foundCallLogs.add(callLog);
+            }
+        }
+        return foundCallLogs;
+    }
 
+    private Map<Contact, Collection<CallLog>> doGroupOfCallLogs
+            (Collection<Contact> contacts, Collection<CallLog> callLogs) {
+        Map<Contact, Collection<CallLog>> groupsOfCallLogs = new HashMap<>();
+        for (Contact contact : contacts) {
+            Collection<CallLog> groupCallLogs = findCallLog(callLogs, contact);
+            groupsOfCallLogs.put(contact, groupCallLogs);
+        }
+        return groupsOfCallLogs;
+    }
+
+        private void printGroupsOfMessages(Map<Contact, Collection<Message>> groupsOfMessages) {
+        for (Contact contact : groupsOfMessages.keySet()) {
+            Collection<Message> messages = groupsOfMessages.get(contact);
+            System.out.println("Контакт : " + contact.getPhoneNumber());
+            System.out.println( "Кол-во сообщений контакта : " + messages.size());
+            System.out.println("Сообщения контакта : ");
+            int count =1 ;
+            for (Message message : messages) {
+                System.out.println(count +". " + message.getText());
+                count++;
+            }
+        }
+    }
+    private void printGroupsOfCallLogs(Map<Contact, Collection<CallLog>> groupOfCallLogs) {
+        for (Contact contact : groupOfCallLogs.keySet()) {
+            Collection<CallLog> callLogs = groupOfCallLogs.get(contact);
+            System.out.println("Контакт : " + contact.getPhoneNumber());
+            System.out.println( "Кол-во вызовов контакта : " + callLogs.size());
+            System.out.println("Статус вызова : ");
+            int count =1 ;
+            for (CallLog callLog : callLogs) {
+                System.out.println(count +". " + callLog.getCallStatus());
+                count++;
+            }
+        }
+    }
 }
