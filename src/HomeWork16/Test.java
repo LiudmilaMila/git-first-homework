@@ -141,8 +141,8 @@ public class Test {
         printGroupsOfMessages(doGroupsOfMessages(contacts, messages));
 
         System.out.println("--------doTask6-------------");
-        doGroupOfCallLogs(contacts,callLogs);
-        printGroupsOfCallLogs(doGroupOfCallLogs(contacts,callLogs));
+        doGroupOfCallLogs(contacts, callLogs);
+        printGroupsOfCallLogs(doGroupOfCallLogs(contacts, callLogs));
 
     }
 
@@ -225,28 +225,29 @@ public class Test {
         return groupsOfCallLogs;
     }
 
-        private void printGroupsOfMessages(Map<Contact, Collection<Message>> groupsOfMessages) {
+    private void printGroupsOfMessages(Map<Contact, Collection<Message>> groupsOfMessages) {
         for (Contact contact : groupsOfMessages.keySet()) {
             Collection<Message> messages = groupsOfMessages.get(contact);
             System.out.println("Контакт : " + contact.getPhoneNumber());
-            System.out.println( "Кол-во сообщений контакта : " + messages.size());
+            System.out.println("Кол-во сообщений контакта : " + messages.size());
             System.out.println("Сообщения контакта : ");
-            int count =1 ;
+            int count = 1;
             for (Message message : messages) {
-                System.out.println(count +". " + message.getText());
+                System.out.println(count + ". " + message.getText());
                 count++;
             }
         }
     }
+
     private void printGroupsOfCallLogs(Map<Contact, Collection<CallLog>> groupOfCallLogs) {
         for (Contact contact : groupOfCallLogs.keySet()) {
             Collection<CallLog> callLogs = groupOfCallLogs.get(contact);
             System.out.println("Контакт : " + contact.getPhoneNumber());
-            System.out.println( "Кол-во вызовов контакта : " + callLogs.size());
+            System.out.println("Кол-во вызовов контакта : " + callLogs.size());
             System.out.println("Статус вызова : ");
-            int count =1 ;
+            int count = 1;
             for (CallLog callLog : callLogs) {
-                System.out.println(count +". " + callLog.getCallStatus());
+                System.out.println(count + ". " + callLog.getCallStatus());
                 count++;
             }
         }
