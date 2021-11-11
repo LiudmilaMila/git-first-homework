@@ -115,22 +115,21 @@ public class Test {
 
         System.out.println("\nВсе сообщения : ");
         for (Message message : messages) {
-            System.out.println(message.getMessageTime()+ " "
-            + message.getPhoneNumber() + " "
-            + message.getNameSubscriber() + " "
-            + message.getText());
+            System.out.println(message.getMessageTime() + " "
+                    + message.getPhoneNumber() + " "
+                    + message.getNameSubscriber() + " "
+                    + message.getText());
         }
 
         Set<Message> uniqueMessages = new HashSet<>(messages);
 
         System.out.println("\nУникальные сообщения : ");
         for (Message uniqueMessage : uniqueMessages) {
-            System.out.println(uniqueMessage.getMessageTime()+ " "
-            + uniqueMessage.getPhoneNumber() + " "
-            + uniqueMessage.getNameSubscriber() + " "
-            + uniqueMessage.getText());
+            System.out.println(uniqueMessage.getMessageTime() + " "
+                    + uniqueMessage.getPhoneNumber() + " "
+                    + uniqueMessage.getNameSubscriber() + " "
+                    + uniqueMessage.getText());
         }
-
 
 
         Collection<Contact> foundContacts = findContactsText(contacts, "ен");
@@ -176,5 +175,28 @@ public class Test {
         }
         return result;
     }
+
+    private Collection<Message> findMessage(Collection<Message> messages, Contact contact) {
+        Collection<Message> foundMessages = new ArrayList<>();
+        for (Message message : messages) {
+            if (message.getPhoneNumber().equals(contact.getPhoneNumber())) {
+                foundMessages.add(message);
+            }
+        }
+        return foundMessages;
+    }
+
+    private Map<Contact, Collection<Message>>
+    doGroupsOfMessages(Collection<Contact> contacts, Collection<Message> messages) {
+        Map<Contact, Collection<Message>> groupsOfMessages = new HashMap<>();
+
+        for (Contact contact : contacts) {
+
+            Collection<Message> groupMessages = findMessage(messages, contact);
+            groupsOfMessages.put(contact, groupMessages);
+        }
+        return groupsOfMessages;
+    }
+
 
 }
