@@ -1,0 +1,180 @@
+package HomeWork16;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) {
+        new Test().run();
+    }
+
+    private void run() {
+
+        Contact contact1 = new Contact("Олефир", "306322589745",
+                LocalDate.of(1993, 5, 12));
+        Contact contact2 = new Contact("Яковенко", "380957493216",
+                LocalDate.of(1967, 7, 30));
+        Contact contact3 = new Contact("Сидоренко", "380735557634",
+                LocalDate.of(1995, 12, 21));
+        Contact contact4 = new Contact("Яковенко", "380957493216",
+                LocalDate.of(1967, 7, 30));
+        Contact contact5 = new Contact("Сидоренко", "380735557634",
+                LocalDate.of(1995, 12, 21));
+
+
+        CallLog callLog1 = new CallLog("Донченко", "380964587392",
+                LocalDateTime.of(2021, 11, 5, 14, 33),
+                356, CallStatus.INCOMING);
+        CallLog callLog2 = new CallLog("Толстой", "380550369875",
+                LocalDateTime.of(2021, 11, 5, 6, 28),
+                66, CallStatus.INCOMING);
+        CallLog callLog3 = new CallLog("Тищенко", "380634978632",
+                LocalDateTime.of(2021, 11, 3, 16, 14),
+                128, CallStatus.INCOMING);
+        CallLog callLog4 = new CallLog("Толстой", "380550369875",
+                LocalDateTime.of(2021, 11, 5, 6, 28),
+                66, CallStatus.INCOMING);
+        CallLog callLog5 = new CallLog("Тищенко", "380634978632",
+                LocalDateTime.of(2021, 11, 3, 16, 14),
+                128, CallStatus.INCOMING);
+
+
+        Message message1 = new Message("Онищенко", "380957863247",
+                "\"Перезвони\"", LocalDateTime.of(2021, 10, 28, 14, 14));
+
+        Message message2 = new Message("Судейченко", "380665893247",
+                "\"Доброе утро\"", LocalDateTime.of(2021, 11, 14, 8, 27));
+
+        Message message3 = new Message("Каменсикх", "380957864722",
+                "\"Вы выиграли в лотерею\"", LocalDateTime.of(2021, 9, 3, 13, 45));
+        Message message4 = new Message("Судейченко", "380665893247",
+                "\"Доброе утро\"", LocalDateTime.of(2021, 11, 14, 8, 27));
+
+        Message message5 = new Message("Каменсикх", "380957864722",
+                "\"Вы выиграли в лотерею\"", LocalDateTime.of(2021, 9, 3, 13, 45));
+
+        List<Contact> contacts = new ArrayList<>();
+
+        contacts.add(contact1);
+        contacts.add(contact2);
+        contacts.add(contact3);
+        contacts.add(contact4);
+        contacts.add(contact5);
+
+        System.out.println("Все контакты : ");
+        for (Contact contact : contacts) {
+            System.out.println(contact.getName() + " " +
+                    contact.getPhoneNumber() + " " +
+                    contact.getBirthDay());
+        }
+        Set<Contact> uniqueContacts = new HashSet<>(contacts);
+
+        System.out.println("\nУникальные контакты : ");
+        for (Contact uniqueContact : uniqueContacts) {
+            System.out.println(uniqueContact.getName() + " " +
+                    uniqueContact.getPhoneNumber() + " " +
+                    uniqueContact.getBirthDay());
+
+        }
+
+        List<CallLog> callLogs = new ArrayList<>();
+        callLogs.add(callLog1);
+        callLogs.add(callLog2);
+        callLogs.add(callLog3);
+        callLogs.add(callLog4);
+        callLogs.add(callLog5);
+
+        System.out.println("\nВсе вызовы : ");
+        for (CallLog callLog : callLogs) {
+            System.out.println(callLog.getNameSubscriber() + " "
+                    + callLog.getPhoneNumber() + " "
+                    + callLog.getCallTime() + " "
+                    + callLog.getCallDuration() + " "
+                    + callLog.getCallStatus());
+        }
+
+        Set<CallLog> uniqueCallLogs = new HashSet<>(callLogs);
+
+        System.out.println("\nУникальные вызовы : ");
+        for (CallLog uniqueCallLog : uniqueCallLogs) {
+            System.out.println(uniqueCallLog.getNameSubscriber() + " "
+                    + uniqueCallLog.getPhoneNumber() + " "
+                    + uniqueCallLog.getCallTime() + " "
+                    + uniqueCallLog.getCallDuration() + " "
+                    + uniqueCallLog.getCallStatus());
+        }
+
+        List<Message> messages = new ArrayList<>();
+
+        messages.add(message1);
+        messages.add(message2);
+        messages.add(message3);
+        messages.add(message4);
+        messages.add(message5);
+
+        System.out.println("\nВсе сообщения : ");
+        for (Message message : messages) {
+            System.out.println(message.getMessageTime()+ " "
+            + message.getPhoneNumber() + " "
+            + message.getNameSubscriber() + " "
+            + message.getText());
+        }
+
+        Set<Message> uniqueMessages = new HashSet<>(messages);
+
+        System.out.println("\nУникальные сообщения : ");
+        for (Message uniqueMessage : uniqueMessages) {
+            System.out.println(uniqueMessage.getMessageTime()+ " "
+            + uniqueMessage.getPhoneNumber() + " "
+            + uniqueMessage.getNameSubscriber() + " "
+            + uniqueMessage.getText());
+        }
+
+
+
+        Collection<Contact> foundContacts = findContactsText(contacts, "ен");
+        Collection<CallLog> foundCallLogs = findCallLogsText(callLogs, "Д");
+        Collection<Message> foundMessages = findMessageText(messages, "ре");
+
+
+    }
+
+    private Collection<Contact> findContactsText(Collection<Contact> contacts, String text) {
+        List<Contact> result = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+            if (contact.getName().contains(text) ||
+                    contact.getPhoneNumber().contains(text)) {
+                result.add(contact);
+            }
+        }
+        return result;
+    }
+
+    private Collection<CallLog> findCallLogsText(Collection<CallLog> callLogs, String text) {
+        List<CallLog> result = new ArrayList<>();
+
+        for (CallLog callLog : callLogs) {
+            if (callLog.getNameSubscriber().contains(text) ||
+                    callLog.getPhoneNumber().contains(text)) {
+                result.add(callLog);
+            }
+        }
+        return result;
+    }
+
+    private Collection<Message> findMessageText(Collection<Message> messages, String text) {
+        List<Message> result = new ArrayList<>();
+
+        for (Message message : messages) {
+            if (message.getNameSubscriber().contains(text) ||
+                    message.getPhoneNumber().contains(text) ||
+                    message.getText().contains(text)) {
+                result.add(message);
+            }
+        }
+        return result;
+    }
+
+}
