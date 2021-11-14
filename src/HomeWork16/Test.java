@@ -144,6 +144,12 @@ public class Test {
         doGroupOfCallLogs(contacts, callLogs);
         printGroupsOfCallLogs(doGroupOfCallLogs(contacts, callLogs));
 
+        List<Pair<Contact, Integer>> connection = new ArrayList<>();
+        for (Contact contact : contacts) {
+            connection.add(new Pair<>(contact, findCallLog(callLogs, contact).size()));
+        }
+
+
     }
 
     private Collection<Contact> findContactsText(Collection<Contact> contacts, String text) {
@@ -252,4 +258,5 @@ public class Test {
             }
         }
     }
+
 }
