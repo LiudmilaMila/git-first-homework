@@ -144,11 +144,12 @@ public class Test {
         doGroupOfCallLogs(contacts, callLogs);
         printGroupsOfCallLogs(doGroupOfCallLogs(contacts, callLogs));
 
-        List<Pair<Contact, Integer>> connection = new ArrayList<>();
-        for (Contact contact : contacts) {
-            connection.add(new Pair<>(contact, findCallLog(callLogs, contact).size()));
-        }
 
+        System.out.println("--------doTask7-------------");
+        doTask7(callLogs,contacts);
+
+        System.out.println("--------doTask8-------------");
+        doTask8(contacts,messages);
 
     }
 
@@ -256,6 +257,51 @@ public class Test {
                 System.out.println(count + ". " + callLog.getCallStatus());
                 count++;
             }
+        }
+    }
+
+    private void doTask7 (Collection<CallLog> callLogs, Collection<Contact> contacts){
+        List<Pair<Contact, Integer>> connection = new ArrayList<>();
+        for (Contact contact : contacts) {
+            connection.add(new Pair<>(contact, findCallLog(callLogs, contact).size()));
+        }
+        Collections.sort(connection, new Comparator<Pair<Contact, Integer>>() {
+            @Override
+            public int compare(Pair<Contact, Integer> pair1, Pair<Contact, Integer> pair2) {
+                int result;
+
+                result = pair1.second.compareTo(pair2.second);
+                return -result;
+            }
+        });
+
+        for (int i = 0; i < Math.min(connection.size(), 5); i++) {
+            Pair<Contact, Integer> pair = connection.get(i);
+
+            System.out.println("Контакт : " + pair.first.getPhoneNumber() +
+                    " кол-во звонков : " + pair.second);
+        }
+    }
+
+    private void doTask8 (Collection<Contact> contacts, Collection<Message> messages){
+        List<Pair<Contact,Integer>> connection = new ArrayList<>();
+        for (Contact contact : contacts) {
+            connection.add(new Pair<>(contact,findMessage(messages,contact).size()));
+        }
+        Collections.sort(connection, new Comparator<Pair<Contact, Integer>>() {
+            @Override
+            public int compare(Pair<Contact, Integer> pair1, Pair<Contact, Integer> pair2) {
+                int result;
+
+                result = pair1.second.compareTo(pair2.second);
+                return -result;
+            }
+        });
+        for (int i = 0; i < Math.min(connection.size(), 5); i++) {
+            Pair<Contact, Integer> pair = connection.get(i);
+
+            System.out.println("Контакт : " + pair.first.getPhoneNumber() +
+                    " кол-во сообщений : " + pair.second);
         }
     }
 
