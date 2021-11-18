@@ -3,6 +3,7 @@ package HomeWork16;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Test {
     public static void main(String[] args) {
@@ -146,10 +147,19 @@ public class Test {
 
 
         System.out.println("--------doTask7-------------");
-        doTask7(callLogs,contacts);
+        doTask7(callLogs, contacts);
 
         System.out.println("--------doTask8-------------");
-        doTask8(contacts,messages);
+        doTask8(contacts, messages);
+
+        System.out.println("--------doTask9-------------");
+        printFoundContactsByText(contacts);
+        System.out.println();
+        printFoundCallLogsByText(callLogs);
+        System.out.println();
+        printFoundMessagesByText(messages);
+        System.out.println();
+
 
     }
 
@@ -260,7 +270,7 @@ public class Test {
         }
     }
 
-    private void doTask7 (Collection<CallLog> callLogs, Collection<Contact> contacts){
+    private void doTask7(Collection<CallLog> callLogs, Collection<Contact> contacts) {
         List<Pair<Contact, Integer>> connection = new ArrayList<>();
         for (Contact contact : contacts) {
             connection.add(new Pair<>(contact, findCallLog(callLogs, contact).size()));
@@ -283,10 +293,10 @@ public class Test {
         }
     }
 
-    private void doTask8 (Collection<Contact> contacts, Collection<Message> messages){
-        List<Pair<Contact,Integer>> connection = new ArrayList<>();
+    private void doTask8(Collection<Contact> contacts, Collection<Message> messages) {
+        List<Pair<Contact, Integer>> connection = new ArrayList<>();
         for (Contact contact : contacts) {
-            connection.add(new Pair<>(contact,findMessage(messages,contact).size()));
+            connection.add(new Pair<>(contact, findMessage(messages, contact).size()));
         }
         Collections.sort(connection, new Comparator<Pair<Contact, Integer>>() {
             @Override
@@ -304,5 +314,86 @@ public class Test {
                     " кол-во сообщений : " + pair.second);
         }
     }
+
+    private <T> Collection<T> find(Collection<T> items, Predicate<T> predicate) {
+        Collection<T> result = new ArrayList<>();
+        for (T item : items) {
+            if (predicate.test(item)) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+    private Collection<Message> findMessageForContact(Collection<Message> messages, Contact contact) {
+        return find(messages, new Predicate<Message>() {
+            @Override
+            public boolean test(Message message) {
+                return message.getPhoneNumber().equals(contact.getPhoneNumber());
+            }
+        });
+    }
+
+    private Collection<CallLog> findCallLogForContact(Collection<CallLog> callLogs, Contact contact) {
+        return find(callLogs, new Predicate<CallLog>() {
+            @Override
+            public boolean test(CallLog callLog) {
+                return callLog.getPhoneNumber().equals(contact.getPhoneNumber());
+            }
+        });
+    }
+
+    private Collection<Message> findMessageByText(Collection<Message> messages, String text) {
+        return find(messages, new Predicate<Message>() {
+            @Override
+            public boolean test(Message message) {
+                return message.getPhoneNumber().contains(text) ||
+                        message.getNameSubscriber().contains(text) ||
+                        message.getText().contains(text);
+            }
+        });
+    }
+
+    private Collection<CallLog> findCallLogByText(Collection<CallLog> callLogs, String text) {
+        return find(callLogs, new Predicate<CallLog>() {
+            @Override
+            public boolean test(CallLog callLog) {
+                return callLog.getPhoneNumber().contains(text) ||
+                        callLog.getNameSubscriber().contains(text);
+            }
+        });
+    }
+
+    private Collection<Contact> findContactByText(Collection<Contact> contacts, String text) {
+        return find(contacts, new Predicate<Contact>() {
+            @Override
+            public boolean test(Contact contact) {
+                return contact.getPhoneNumber().contains(text) ||
+                        contact.getName().contains(text);
+            }
+        });
+    }
+
+    private void printFoundContactsByText(Collection<Contact> contacts){
+        Collection<Contact> foundContactsByText = findContactByText(contacts,"е");
+        for (Contact contact : foundContactsByText) {
+            System.out.println("Совпадение: " + contact.getName());
+        }
+    }
+    private void printFoundCallLogsByText(Collection<CallLog> callLogs){
+        Collection<CallLog> foundCallLogsByText = findCallLogByText(callLogs,"е");
+        for (CallLog callLog : foundCallLogsByText) {
+
+            System.out.println("Совпадение: " + callLog.getNameSubscriber());
+        }
+    }
+    private void printFoundMessagesByText(Collection<Message> messages){
+        Collection<Message> foundMessagesByText = findMessageByText(messages,"е");
+        for (Message message : foundMessagesByText) {
+
+            System.out.println("Совпадение: " + message.getText());
+        }
+    }
+
 
 }
