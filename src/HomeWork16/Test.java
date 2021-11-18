@@ -160,6 +160,12 @@ public class Test {
         printFoundMessagesByText(messages);
         System.out.println();
 
+        System.out.println("--------doTask10-------------");
+        printResultOfQueueMethods(contacts);
+        System.out.println();
+        printResultOfQueueMethods2(callLogs);
+        System.out.println();
+        printResultOfQueueMethods3(messages);
 
     }
 
@@ -374,26 +380,60 @@ public class Test {
         });
     }
 
-    private void printFoundContactsByText(Collection<Contact> contacts){
-        Collection<Contact> foundContactsByText = findContactByText(contacts,"е");
+    private void printFoundContactsByText(Collection<Contact> contacts) {
+        Collection<Contact> foundContactsByText = findContactByText(contacts, "е");
         for (Contact contact : foundContactsByText) {
             System.out.println("Совпадение: " + contact.getName());
         }
     }
-    private void printFoundCallLogsByText(Collection<CallLog> callLogs){
-        Collection<CallLog> foundCallLogsByText = findCallLogByText(callLogs,"е");
+
+    private void printFoundCallLogsByText(Collection<CallLog> callLogs) {
+        Collection<CallLog> foundCallLogsByText = findCallLogByText(callLogs, "е");
         for (CallLog callLog : foundCallLogsByText) {
 
             System.out.println("Совпадение: " + callLog.getNameSubscriber());
         }
     }
-    private void printFoundMessagesByText(Collection<Message> messages){
-        Collection<Message> foundMessagesByText = findMessageByText(messages,"е");
+
+    private void printFoundMessagesByText(Collection<Message> messages) {
+        Collection<Message> foundMessagesByText = findMessageByText(messages, "е");
         for (Message message : foundMessagesByText) {
 
             System.out.println("Совпадение: " + message.getText());
         }
     }
 
-
+    private void printResultOfQueueMethods(Collection<Contact> contacts) {
+        Queue<Contact> queue = new LinkedList<>();
+        for (Contact contact : contacts) {
+            queue.offer(contact);
+        }
+            assert queue.peek() != null;
+            System.out.println(queue.peek().getName());
+            System.out.println(Objects.requireNonNull(queue.poll()).getName());
+            System.out.println(queue.element().getName());
+            System.out.println(queue.remove().getName());
+        }
+    private void printResultOfQueueMethods2(Collection<CallLog> callLogs) {
+        Queue<CallLog> queue = new LinkedList<>();
+        for (CallLog callLog :callLogs) {
+            queue.offer(callLog);
+        }
+        assert queue.peek() != null;
+        System.out.println(queue.peek().getNameSubscriber());
+        System.out.println(Objects.requireNonNull(queue.poll()).getNameSubscriber());
+        System.out.println(queue.element().getNameSubscriber());
+        System.out.println(queue.remove().getNameSubscriber());
+    }
+    private void printResultOfQueueMethods3(Collection<Message> messages) {
+        Queue<Message> queue = new LinkedList<>();
+        for (Message message : messages) {
+            queue.offer(message);
+        }
+        assert queue.peek() != null;
+        System.out.println(queue.peek().getText());
+        System.out.println(Objects.requireNonNull(queue.poll()).getText());
+        System.out.println(queue.element().getText());
+        System.out.println(queue.remove().getText());
+    }
 }
