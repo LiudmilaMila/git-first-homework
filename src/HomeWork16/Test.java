@@ -166,6 +166,12 @@ public class Test {
         printResultOfQueueMethods2(callLogs);
         System.out.println();
         printResultOfQueueMethods3(messages);
+        System.out.println();
+        printResultOfDequeMethods(contacts);
+        System.out.println();
+        printResultOfDequeMethods2(callLogs);
+        System.out.println();
+        printResultOfDequeMethods3(messages);
 
     }
 
@@ -408,15 +414,16 @@ public class Test {
         for (Contact contact : contacts) {
             queue.offer(contact);
         }
-            assert queue.peek() != null;
-            System.out.println(queue.peek().getName());
-            System.out.println(Objects.requireNonNull(queue.poll()).getName());
-            System.out.println(queue.element().getName());
-            System.out.println(queue.remove().getName());
-        }
+        assert queue.peek() != null;
+        System.out.println(queue.peek().getName());
+        System.out.println(Objects.requireNonNull(queue.poll()).getName());
+        System.out.println(queue.element().getName());
+        System.out.println(queue.remove().getName());
+    }
+
     private void printResultOfQueueMethods2(Collection<CallLog> callLogs) {
         Queue<CallLog> queue = new LinkedList<>();
-        for (CallLog callLog :callLogs) {
+        for (CallLog callLog : callLogs) {
             queue.offer(callLog);
         }
         assert queue.peek() != null;
@@ -425,6 +432,7 @@ public class Test {
         System.out.println(queue.element().getNameSubscriber());
         System.out.println(queue.remove().getNameSubscriber());
     }
+
     private void printResultOfQueueMethods3(Collection<Message> messages) {
         Queue<Message> queue = new LinkedList<>();
         for (Message message : messages) {
@@ -435,5 +443,41 @@ public class Test {
         System.out.println(Objects.requireNonNull(queue.poll()).getText());
         System.out.println(queue.element().getText());
         System.out.println(queue.remove().getText());
+    }
+
+    private void printResultOfDequeMethods(Collection<Contact> contacts) {
+        Deque<Contact> contactDeque = new LinkedList<>(contacts);
+
+        System.out.println(contactDeque.getFirst().getName());
+        System.out.println(Objects.requireNonNull(contactDeque.pollLast()).getName());
+        System.out.println(contactDeque.getLast().getName());
+        assert contactDeque.peekFirst() != null;
+        System.out.println(contactDeque.peekFirst().getName());
+        System.out.println(contactDeque.pop().getName());
+        System.out.println(contactDeque.getFirst().getName());
+    }
+
+    private void printResultOfDequeMethods2(Collection<CallLog> callLogs) {
+        Deque<CallLog> contactDeque = new LinkedList<>(callLogs);
+
+        System.out.println(contactDeque.getFirst().getNameSubscriber());
+        System.out.println(Objects.requireNonNull(contactDeque.pollLast()).getNameSubscriber());
+        System.out.println(contactDeque.getLast().getNameSubscriber());
+        assert contactDeque.peekFirst() != null;
+        System.out.println(contactDeque.peekFirst().getNameSubscriber());
+        System.out.println(contactDeque.pop().getNameSubscriber());
+        System.out.println(contactDeque.getFirst().getNameSubscriber());
+    }
+
+    private void printResultOfDequeMethods3(Collection<Message> messages) {
+        Deque<Message> contactDeque = new LinkedList<>(messages);
+
+        System.out.println(contactDeque.getFirst().getText());
+        System.out.println(Objects.requireNonNull(contactDeque.pollLast()).getText());
+        System.out.println(contactDeque.getLast().getText());
+        assert contactDeque.peekFirst() != null;
+        System.out.println(contactDeque.peekFirst().getText());
+        System.out.println(contactDeque.pop().getText());
+        System.out.println(contactDeque.getFirst().getText());
     }
 }
