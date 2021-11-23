@@ -1,58 +1,39 @@
 package HomeWork21;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            new Main().run();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
 
         try {
-            new Main().run1();
-        } catch (FileNotFoundException e) {
+            new Main().writeSimpleData();
+            new Main().readSimpleData();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        try {
-//            new Main().run2();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
     }
 
-    private void run() throws FileNotFoundException {
-        try (PrintWriter writer = new PrintWriter(
-                new FileOutputStream("text.txt"))) {
-            writer.println("Hello, world!");
+    private void writeSimpleData() throws IOException {
+        try(DataOutputStream out = new DataOutputStream(new FileOutputStream("data.bin"))){
+            out.writeByte(123);
+            out.writeInt(1234);
+            out.writeFloat(1234);
+            out.writeDouble(1234);
+            out.writeUTF("hello и привет");
+
         }
     }
 
-    private void run1() throws FileNotFoundException {
-        try (PrintWriter writer = new PrintWriter(
-                new FileOutputStream("random.txt"))) {
-            for (int i = 0; i < 1000; i++) {
-                int a = (int) (Math.random() * (1150 + 1)) - 500;
-                writer.print(a);
-                if (i < 999) {
-                    writer.print(", ");
-                }
-            }
+    private void readSimpleData()throws IOException {
+        try (DataInputStream in = new DataInputStream(
+                new FileInputStream("data.bin"))){
+            System.out.println("readByte() = " + in.readByte());
+            System.out.println("readInt() = " + in.readInt());
+            System.out.println("readFloat() = " + in.readFloat());
+            System.out.println("readDouble() = " + in.readDouble());
+            System.out.println("readUTF() = " + in.readUTF());
+
         }
     }
-
-//    private void run2() throws FileNotFoundException {
-//        Collection<Integer> values = new ArrayList<>();
-//        try(Scanner scanner = new Scanner(
-//                new FileInputStream("doTask3"), StandardCharsets.UTF_8.name())){
-//            while (){
-//                values.add(scanner.nextInt());
-//
-//            }
-//        }
-//    }
 }
