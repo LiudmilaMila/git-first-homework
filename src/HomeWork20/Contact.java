@@ -13,6 +13,7 @@ public class Contact {
         this.phoneNumber = phoneNumber;
         this.yearOfBirth = yearOfBirth;
     }
+
     public String getName() {
         return name;
     }
