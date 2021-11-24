@@ -48,7 +48,7 @@ public class Main {
                 new FileOutputStream("random.txt"))) {
             for (int i = 0; i < 1000; i++) {
                 int a = (int) (Math.random() * (1150 + 1)) - 500;
-                writer.print(a + " ");
+                writer.print(a + ", ");
             }
         }
     }
@@ -57,6 +57,7 @@ public class Main {
         Collection<Integer> values = new ArrayList<>();
         try (Scanner scanner = new Scanner(
                 new FileInputStream("random.txt"), StandardCharsets.UTF_8.name())) {
+            scanner.useDelimiter(", ");
             int count = 0;
             while (scanner.hasNextInt() && count < 100) {
 
@@ -74,7 +75,6 @@ public class Main {
 
         }
         double average = ((double) sum) / values.size();
-        System.out.println();
         System.out.println(average);
     }
 
