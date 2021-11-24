@@ -1,13 +1,8 @@
 package HomeWork20;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,6 +26,12 @@ public class Main {
         try {
             new Main().run3();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            new Main().run4();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -103,13 +104,47 @@ public class Main {
 
         try (PrintWriter writer = new PrintWriter(
                 new FileOutputStream("contacts.txt"))) {
-            final String linePattern = "%11s|%11s|%11s|%6s%n";
+            final String linePattern = "%s|%s|%s|%s%n";
             for (Contact contact : contacts) {
                 writer.printf(linePattern, contact.getName(),
                         contact.getSurname(),
                         contact.getPhoneNumber(),
                         contact.getYearOfBirth());
             }
+        }
+    }
+
+    private void run4() throws IOException {
+        List<Contact> contacts = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream("contacts.txt"), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Scanner scanner = new Scanner(line);
+                scanner.useDelimiter("\\|");
+                String name = scanner.next();
+                String surname = scanner.next();
+                String phoneNumber = scanner.next();
+                int yearOfBirth = scanner.nextInt();
+
+                contacts.add(new Contact(name, surname, phoneNumber, yearOfBirth));
+            }
+        }
+        Collections.sort(contacts, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                return Integer.compare(o1.getYearOfBirth(), o2.getYearOfBirth());
+            }
+        });
+        final String linePattern = "%s|%s|%s|%s%n";
+        for (int i = 0; i < Math.min(contacts.size(), 5); i++) {
+            Contact contact = contacts.get(i);
+            System.out.printf(linePattern, contact.getName(),
+                    contact.getSurname(),
+                    contact.getPhoneNumber(),
+                    contact.getYearOfBirth());
+
         }
     }
 }
