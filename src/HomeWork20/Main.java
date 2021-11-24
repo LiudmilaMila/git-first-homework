@@ -28,6 +28,12 @@ public class Main {
             e.printStackTrace();
         }
 
+        try {
+            new Main().run3();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void run() throws FileNotFoundException {
@@ -70,5 +76,40 @@ public class Main {
         double average = ((double) sum) / values.size();
         System.out.println();
         System.out.println(average);
+    }
+
+    private void run3() throws FileNotFoundException {
+        Collection<Contact> contacts = new ArrayList<>();
+        contacts.add(new HomeWork20.Contact("Василий", "Артеменко",
+                "0652289743", 1978));
+        contacts.add(new Contact("Анжела", "Донченко",
+                "0869473251", 1992));
+        contacts.add(new HomeWork20.Contact("Давид", "Авокян",
+                "0652289743", 1978));
+        contacts.add(new HomeWork20.Contact("Анжелика", "Агурбаш",
+                "0673894625", 1977));
+        contacts.add(new HomeWork20.Contact("Лариса", "Гузеева",
+                "09872281143", 1956));
+        contacts.add(new HomeWork20.Contact("Павел", "Морозов",
+                "0670398624", 1994));
+        contacts.add(new HomeWork20.Contact("Роман", "Микитюк",
+                "0612697428", 1997));
+        contacts.add(new HomeWork20.Contact("Роман", "Цовма",
+                "0670318864", 1990));
+        contacts.add(new HomeWork20.Contact("Анастасия", "Коц",
+                "0664790215", 1985));
+        contacts.add(new HomeWork20.Contact("Ирина", "Лебедь",
+                "0630497621", 1984));
+
+        try (PrintWriter writer = new PrintWriter(
+                new FileOutputStream("contacts.txt"))) {
+            final String linePattern = "%11s|%11s|%11s|%6s%n";
+            for (Contact contact : contacts) {
+                writer.printf(linePattern, contact.getName(),
+                        contact.getSurname(),
+                        contact.getPhoneNumber(),
+                        contact.getYearOfBirth());
+            }
+        }
     }
 }
