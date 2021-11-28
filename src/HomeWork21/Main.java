@@ -45,8 +45,11 @@ public class Main {
             readContactCollection2();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-
         }
+        int filesCount = getFilesCount(
+                new File("E:\\Java\\Elementary\\ProjectEl\\src"));
+        System.out.println(filesCount);
+
     }
 
     private void writeSimpleData() throws IOException {
@@ -144,5 +147,17 @@ public class Main {
             Collection<Contact> contacts = (Collection<Contact>) in.readObject();
             return contacts;
         }
+    }
+
+    public static int getFilesCount(File file) {
+        File[] files = file.listFiles();
+        int count = 0;
+        for (File f : files)
+            if (f.isDirectory())
+                count += getFilesCount(f);
+            else
+                count++;
+
+        return count;
     }
 }
