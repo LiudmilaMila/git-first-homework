@@ -38,12 +38,13 @@ public class Main {
             writeSimpleData();
             readSimpleData();
             writeStringCollection(strings);
-            Collection<String> strings1 = readStringCollection();
+            readStringCollection();
             writeContactCollection(contacts);
-            Collection<Contact> contacts1 = readContactCollection();
-        } catch (IOException e) {
+            readContactCollection();
+            writeContactCollection2(contacts);
+            readContactCollection2();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-
 
         }
     }
@@ -129,5 +130,19 @@ public class Main {
         }
     }
 
+    private void writeContactCollection2(Collection<Contact> contacts) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream("data.bin"))) {
+            out.writeObject(contacts);
+        }
+    }
 
+    private Collection<Contact> readContactCollection2() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new
+                FileInputStream("data.bin"))) {
+
+            Collection<Contact> contacts = (Collection<Contact>) in.readObject();
+            return contacts;
+        }
+    }
 }
